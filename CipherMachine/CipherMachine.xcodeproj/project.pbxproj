@@ -8,17 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		0B88CAC52846A3D3005BBF4A /* CipherMachineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B88CAC42846A3D3005BBF4A /* CipherMachineApp.swift */; };
-		0B88CAC72846A3D3005BBF4A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B88CAC62846A3D3005BBF4A /* ContentView.swift */; };
+		0B88CAC72846A3D3005BBF4A /* CipherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B88CAC62846A3D3005BBF4A /* CipherView.swift */; };
 		0B88CAC92846A3D5005BBF4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B88CAC82846A3D5005BBF4A /* Assets.xcassets */; };
 		0B88CACC2846A3D5005BBF4A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B88CACB2846A3D5005BBF4A /* Preview Assets.xcassets */; };
+		0B88CAD32846BA8E005BBF4A /* CipherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B88CAD22846BA8E005BBF4A /* CipherViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B88CAC12846A3D3005BBF4A /* CipherMachine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CipherMachine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B88CAC42846A3D3005BBF4A /* CipherMachineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherMachineApp.swift; sourceTree = "<group>"; };
-		0B88CAC62846A3D3005BBF4A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		0B88CAC62846A3D3005BBF4A /* CipherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherView.swift; sourceTree = "<group>"; };
 		0B88CAC82846A3D5005BBF4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0B88CACB2846A3D5005BBF4A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0B88CAD22846BA8E005BBF4A /* CipherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +54,8 @@
 			isa = PBXGroup;
 			children = (
 				0B88CAC42846A3D3005BBF4A /* CipherMachineApp.swift */,
-				0B88CAC62846A3D3005BBF4A /* ContentView.swift */,
+				0B88CAD42846BBCB005BBF4A /* Views */,
+				0B88CAD52846BBD2005BBF4A /* ViewModels */,
 				0B88CAC82846A3D5005BBF4A /* Assets.xcassets */,
 				0B88CACA2846A3D5005BBF4A /* Preview Content */,
 			);
@@ -65,6 +68,22 @@
 				0B88CACB2846A3D5005BBF4A /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0B88CAD42846BBCB005BBF4A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0B88CAC62846A3D3005BBF4A /* CipherView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0B88CAD52846BBD2005BBF4A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0B88CAD22846BA8E005BBF4A /* CipherViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +156,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B88CAC72846A3D3005BBF4A /* ContentView.swift in Sources */,
+				0B88CAD32846BA8E005BBF4A /* CipherViewModel.swift in Sources */,
+				0B88CAC72846A3D3005BBF4A /* CipherView.swift in Sources */,
 				0B88CAC52846A3D3005BBF4A /* CipherMachineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,21 +7,51 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CipherView: View {
+    
+    @EnvironmentObject var vm: CipherViewModel
+    
     var body: some View {
-        Text("Hello, world!")
+        ZStack {
+            VStack {
+                titleSection
+                encryptSection
+                decryptSection
+            }
             .padding()
+        }
     }
+    
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+extension CipherView {
+    
+    var titleSection: some View {
+        Text("Cipher Machine")
+            .font(.title)
     }
+    
+    var encryptSection: some View {
+        VStack {
+            Text("ENCRYPT:")
+            TextField("key", text: $vm.userKey)
+            TextEditor(text: $vm.userMessage)
+                .foregroundColor(.secondary.opacity(0.5))
+        }
+    }
+    
+    var decryptSection: some View {
+        VStack {
+            Text("DECRYPT:")
+            TextField("key", text: $vm.decryptKey)
+            TextEditor(text: $vm.codedMessage)
+                .foregroundColor(.secondary.opacity(0.5))
+        }
+    }
+    
 }
 
 /*
- 
  ENCRYPT PROCESS:
  1. User types in key (string) to code message with
  2. Computer translates key into a number
@@ -43,6 +73,11 @@ struct ContentView_Previews: PreviewProvider {
         ii. add character to decoded array
     b. If character is a vowel
         i. add a space character to the coded message
- 
- 
  */
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        CipherView()
+            .environmentObject(CipherViewModel())
+    }
+}

@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct CipherMachineApp: App {
+    
+    @StateObject var cipherVM = CipherViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CipherView()
+                .environmentObject(cipherVM)
         }
     }
 }
