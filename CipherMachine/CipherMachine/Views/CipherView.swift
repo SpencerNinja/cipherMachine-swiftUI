@@ -35,8 +35,22 @@ extension CipherView {
         VStack {
             Text("ENCRYPT:")
             TextField("key", text: $vm.userKey)
+                .onChange(of: vm.userKey) { newValue in
+                    if (vm.userKey.count > 0) {
+                        vm.userKeyIsEntered = true
+                    }
+                }
             TextEditor(text: $vm.userMessage)
                 .foregroundColor(.secondary.opacity(0.5))
+                .onChange(of: vm.userMessage) { newValue in
+                    if (vm.userMessage.count > 0 && vm.userMessage != "Message") {
+                        vm.userKeyIsEntered = true
+                    }
+                }
+            // TODO: Insert encrypted message here
+            if (vm.userKeyIsEntered && vm.userMessageIsEntered) {
+                Text(vm.encryptMessage(userMessage: vm.userMessage, keyNumber: vm.convertKeyToNumber(keyString: vm.userKey)))
+            }
         }
     }
     
@@ -46,6 +60,7 @@ extension CipherView {
             TextField("key", text: $vm.decryptKey)
             TextEditor(text: $vm.codedMessage)
                 .foregroundColor(.secondary.opacity(0.5))
+            // TODO: Insert decrypted message here
         }
     }
     
