@@ -11,11 +11,15 @@ struct CipherView: View {
     
     @EnvironmentObject var vm: CipherViewModel
     
+    @State var encryptedMessage = ""
+    
     var body: some View {
         ZStack {
             VStack {
                 titleSection
+                Spacer()
                 encryptSection
+                Spacer()
                 decryptSection
             }
             .padding()
@@ -35,22 +39,27 @@ extension CipherView {
         VStack {
             Text("ENCRYPT:")
             TextField("key", text: $vm.userKey)
-                .onChange(of: vm.userKey) { newValue in
-                    if (vm.userKey.count > 0) {
-                        vm.userKeyIsEntered = true
-                    }
-                }
+//                .onChange(of: vm.userKey) { newValue in
+//                    if (vm.userKey.count > 0) {
+//                        vm.userKeyIsEntered = true
+//                    }
+//                }
             TextEditor(text: $vm.userMessage)
-                .foregroundColor(.secondary.opacity(0.5))
-                .onChange(of: vm.userMessage) { newValue in
-                    if (vm.userMessage.count > 0 && vm.userMessage != "Message") {
-                        vm.userKeyIsEntered = true
-                    }
-                }
+//                .foregroundColor(.secondary.opacity(0.5))
+//                .onChange(of: vm.userMessage) { newValue in
+//                    if (vm.userMessage.count > 0 && vm.userMessage != "Message") {
+//                        vm.userKeyIsEntered = true
+//                    }
+//                }
+            Button(action: {
+                encryptedMessage = vm.encryptMessage(userMessage: $vm.userMessage.wrappedValue, keyNumber: vm.convertKeyToNumber(keyString: $vm.userKey.wrappedValue))
+            }, label: {
+                Text("Encrypt My Message")
+            })
             // TODO: Insert encrypted message here
-            if (vm.userKeyIsEntered && vm.userMessageIsEntered) {
-                Text(vm.encryptMessage(userMessage: vm.userMessage, keyNumber: vm.convertKeyToNumber(keyString: vm.userKey)))
-            }
+//            if (vm.userKeyIsEntered && vm.userMessageIsEntered) {
+                Text(encryptedMessage)
+//            }
         }
     }
     

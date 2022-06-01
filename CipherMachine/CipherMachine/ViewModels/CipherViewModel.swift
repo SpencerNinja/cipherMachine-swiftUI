@@ -11,13 +11,13 @@ class CipherViewModel: ObservableObject {
     
     @Published var userKey = ""
     @Published var userMessage = "Message"
-    @Published var userKeyIsEntered = false
-    @Published var userMessageIsEntered = false
+//    @Published var userKeyIsEntered = false
+//    @Published var userMessageIsEntered = false
     
     @Published var decryptKey = ""
     @Published var codedMessage = "Message"
-    @Published var codedKeyIsEntered = false
-    @Published var codedMessageIsEntered = false
+//    @Published var codedKeyIsEntered = false
+//    @Published var codedMessageIsEntered = false
     
     var letterNumberDictionary = [
         "a": 1,
@@ -102,7 +102,7 @@ class CipherViewModel: ObservableObject {
         "|": 80,
         ":": 81,
         ";": 82,
-        "'": 83,
+        "\'": 83,
         "\"": 84,
         ",": 85,
         ".": 86,
@@ -111,20 +111,33 @@ class CipherViewModel: ObservableObject {
         "<": 89,
         ">": 90,
         "`": 91,
-        "~": 92
+        "~": 92,
+        " ": 93
     ]
     
 //    let alphabetArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     let vowels = ["a", "e", "i", "o", "u"] // excluding y, which is only a vowel sometimes
-    let consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"]
+    let consonants = [
+        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"
+    ]
     
     func convertKeyToNumber(keyString: String) -> Int {
         var numericValueOfKey = 0
+        var arrayOfCharValues: [Int] = []
         for char in keyString {
-            for (letter, value) in letterNumberDictionary {
-                if (String(char) == letter) {
-                    numericValueOfKey += value
-                }
+            let singleValue = letterNumberDictionary[String(char)]!
+            arrayOfCharValues.append(singleValue)
+        }
+        for value in arrayOfCharValues {
+            if (value % 2 == 0) {
+                numericValueOfKey += value
+            } else {
+                numericValueOfKey -= value
             }
         }
         return numericValueOfKey
@@ -132,24 +145,22 @@ class CipherViewModel: ObservableObject {
     
     func encryptMessage(userMessage: String, keyNumber: Int) -> String {
         var codedCharacter = ""
-        var characterPosition = 0
+        var currentCharacterPosition = 0
         var codedMessage = ""
         for char in userMessage {
-            for (letter, value) in letterNumberDictionary {
-                if (String(char) == letter) {
-                    characterPosition = value
-                }
-            }
+            currentCharacterPosition = letterNumberDictionary[String(char)]!
+            var newCharacterPosition = 0
             if (char == " ") {
                 codedCharacter = vowels.randomElement()!
             } else {
-                characterPosition += keyNumber
-                codedCharacter = consonants[characterPosition]
+                newCharacterPosition = currentCharacterPosition + keyNumber
+                codedCharacter = consonants[newCharacterPosition]
             }
             codedMessage.append(codedCharacter)
         }
         return codedMessage
     }
+//    var example = Int(UnicodeScalar("A").value)
     
     func decryptMessage(encryptedMessage: String, keyNumber: Int) -> String {
         var decodedCharacter = ""
