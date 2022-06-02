@@ -10,14 +10,12 @@ import Foundation
 class CipherViewModel: ObservableObject {
     
     @Published var userKey = ""
-    @Published var userMessage = "Message"
-//    @Published var userKeyIsEntered = false
-//    @Published var userMessageIsEntered = false
+    @Published var messageToCode = ""
     
     @Published var decryptKey = ""
-    @Published var codedMessage = "Message"
-//    @Published var codedKeyIsEntered = false
-//    @Published var codedMessageIsEntered = false
+    @Published var messageToDecode = ""
+    
+    @Published var prohibitedCharacterForKey = "01234567890-=!@#$%^&*()_+[]\\{}|;\':\",./<>?`~"
     
     var letterNumberDictionary = [
         "a": 1,
@@ -118,30 +116,31 @@ class CipherViewModel: ObservableObject {
     
 //    let alphabetArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     let vowels = ["a", "e", "i", "o", "u"] // excluding y, which is only a vowel sometimes
-    let consonants = [
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
-        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"
-    ]
+    let consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"]
+//    let consonants = [
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z",
+//        "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"
+//    ]
     
     func convertKeyToNumber(keyString: String) -> Int {
         var numericValueOfKey = 0
@@ -151,28 +150,28 @@ class CipherViewModel: ObservableObject {
             arrayOfCharValues.append(singleValue)
         }
         for value in arrayOfCharValues {
-            if (value % 2 == 0) {
-                numericValueOfKey += value
-            } else {
-                if (value > 0) {
-                    numericValueOfKey -= value
-                } 
-            }
+            numericValueOfKey += value
+        }
+        while (numericValueOfKey > consonants.count) {
+            numericValueOfKey -= consonants.count
         }
         return numericValueOfKey
     }
     
     func encryptMessage(userMessage: String, keyNumber: Int) -> String {
-        var codedCharacter = ""
-        var currentCharacterPosition = 0
         var codedMessage = ""
         for char in userMessage {
+            var codedCharacter = ""
+            var currentCharacterPosition = 0
             currentCharacterPosition = letterNumberDictionary[String(char)]!
             var newCharacterPosition = 0
             if (char == " ") {
                 codedCharacter = vowels.randomElement()!
             } else {
                 newCharacterPosition = currentCharacterPosition + keyNumber
+                while (newCharacterPosition > consonants.count) {
+                    newCharacterPosition -= consonants.count
+                }
                 codedCharacter = consonants[newCharacterPosition]
             }
             codedMessage.append(codedCharacter)
@@ -183,21 +182,18 @@ class CipherViewModel: ObservableObject {
     
     func decryptMessage(encryptedMessage: String, keyNumber: Int) -> String {
         var decodedCharacter = ""
-        var characterPosition = 0
+        var shiftedCharacterPosition = 0
         var decodedMessage = ""
         for char in encryptedMessage {
-            for (letter, value) in letterNumberDictionary {
-                if (String(char) == letter) {
-                    characterPosition = value
-                }
-            }
-            if (char == " ") {
-                decodedCharacter = vowels.randomElement()!
+            if vowels.contains(String(char)) {
+                decodedMessage.append(" ")
             } else {
-                characterPosition -= keyNumber
-                decodedCharacter = consonants[characterPosition]
+                shiftedCharacterPosition = letterNumberDictionary[String(char)]!
+                var actualCharacterPosition = 0
+                actualCharacterPosition = shiftedCharacterPosition - keyNumber
+                decodedCharacter = consonants[actualCharacterPosition]
+                decodedMessage.append(decodedCharacter)
             }
-            decodedMessage.append(decodedCharacter)
         }
         return decodedMessage
     }
