@@ -61,7 +61,9 @@ extension CipherView {
             }, label: {
                 Text("Encrypt My Message")
             })
-            Text(encryptedMessage)
+            ScrollView {
+                Text(encryptedMessage)
+            }
         }
     }
     
@@ -83,7 +85,9 @@ extension CipherView {
             }, label: {
                 Text("Decrypt My Message")
             })
-            Text(decryptedMessage)
+            ScrollView {
+                Text(decryptedMessage)
+            }
         }
     }
     

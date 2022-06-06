@@ -160,25 +160,35 @@ class CipherViewModel: ObservableObject {
     
     func encryptMessage(userMessage: String, keyNumber: Int) -> String {
         var codedMessage = ""
+//        print("keynumber = \(keyNumber)")
         for char in userMessage {
+//            print("char: \(char)")
             var codedCharacter = ""
             var currentCharacterPosition = 0
             currentCharacterPosition = letterNumberDictionary[String(char)]!
+//            print("currentCharacterPosition = \(currentCharacterPosition)")
             var newCharacterPosition = 0
             if (char == " ") {
                 codedCharacter = vowels.randomElement()!
             } else {
                 newCharacterPosition = currentCharacterPosition + keyNumber
-                while (newCharacterPosition > consonants.count) {
+//                print("initial newCharacterPosition = \(newCharacterPosition)")
+//                print("consonants.count = \(consonants.count)")
+                while (newCharacterPosition >= consonants.count) {
                     newCharacterPosition -= consonants.count
+//                    print("changed newCharacterPosition = \(newCharacterPosition)")
                 }
                 codedCharacter = consonants[newCharacterPosition]
+//                print("codedCharacter = \(codedCharacter)")
             }
             codedMessage.append(codedCharacter)
+//            print("encrypted message = \(codedMessage)")
         }
         return codedMessage
     }
-//    var example = Int(UnicodeScalar("A").value)
+    
+    // UNICODE Example:
+    //      var example = Int(UnicodeScalar("A").value)
     
     func decryptMessage(encryptedMessage: String, keyNumber: Int) -> String {
         var decodedCharacter = ""
