@@ -16,14 +16,10 @@ struct CipherView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                titleSection
-                Divider()
-                encryptSection
-                Divider()
-                decryptSection
-            }
-            .padding()
+            Color.black
+                .ignoresSafeArea()
+            
+            contentSection
         }
     }
     
@@ -31,15 +27,32 @@ struct CipherView: View {
 
 extension CipherView {
     
+    var contentSection: some View {
+        VStack {
+            titleSection
+            Divider()
+                .background()
+            encryptSection
+            Divider()
+                .background()
+            decryptSection
+        }
+        .padding()
+    }
+    
     var titleSection: some View {
         Text("Cipher Machine")
             .font(.title)
+            .foregroundColor(.gray)
     }
     
     var encryptSection: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("ENCRYPT:")
+                .foregroundColor(.gray)
             TextField("Enter a word (no spaces, numbers or symbols)", text: $vm.userKey)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 10).fill(.mint))
                 .autocapitalization(.none)
                 .onChange(of: vm.userKey) { newValue in
                     for char in vm.prohibitedCharacterForKey {
@@ -51,7 +64,9 @@ extension CipherView {
                 .padding()
                 .background(.gray.opacity(0.1))
             Text("Enter the message to encrypt below:")
+                .foregroundColor(.gray)
             TextEditor(text: $vm.messageToCode)
+                .cornerRadius(10)
                 .autocapitalization(.none)
                 .padding()
                 .background(.gray.opacity(0.1))
@@ -62,22 +77,32 @@ extension CipherView {
                 )
             }, label: {
                 Text("Encrypt My Message")
+                    .foregroundColor(.mint)
+                    .padding()
+                    .border(.mint)
+                    .cornerRadius(10)
             })
             ScrollView {
                 Text(encryptedMessage)
+                    .foregroundColor(.teal)
             }
         }
     }
     
     var decryptSection: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("DECRYPT:")
+                .foregroundColor(.gray)
             TextField("Enter the key (without spaces)", text: $vm.decryptKey)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 10).fill(.mint))
                 .autocapitalization(.none)
                 .padding()
                 .background(.gray.opacity(0.1))
             Text("Enter the message to decrypt below:")
+                .foregroundColor(.gray)
             TextEditor(text: $vm.messageToDecode)
+                .cornerRadius(10)
                 .autocapitalization(.none)
                 .onChange(of: vm.messageToDecode) { newValue in
                     if (newValue.contains("”")) {
@@ -97,9 +122,14 @@ extension CipherView {
                 )
             }, label: {
                 Text("Decrypt My Message")
+                    .foregroundColor(.mint)
+                    .padding()
+                    .border(.mint)
+                    .cornerRadius(10)
             })
             ScrollView {
                 Text(decryptedMessage)
+                    .foregroundColor(.red)
             }
         }
     }
