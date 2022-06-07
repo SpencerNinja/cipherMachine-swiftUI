@@ -40,9 +40,10 @@ class CipherViewModel: ObservableObject {
     ]
     
     var letterArray = [
+        "0",
         // ----------------------------LOWERCASE----------------------------------------
-        "a",     "b",     "c",     "d",     "e",     "f",     "g",
-        "h",     "i",     "j",    "k",    "l",    "m",    "n",
+        "a",    "b",    "c",    "d",    "e",    "f",    "g",
+        "h",    "i",    "j",    "k",    "l",    "m",    "n",
         "o",    "p",    "q",    "r",    "s",    "t",    "u",
         "v",    "w",    "x",    "y",    "z",
         // ----------------------------UPPERCASE----------------------------------------
@@ -97,7 +98,6 @@ class CipherViewModel: ObservableObject {
         for char in encryptedMessage {
             let shiftedCharacterPosition = letterNumberDictionary[String(char)]!
             var actualCharacterPosition = shiftedCharacterPosition - keyNumber
-            actualCharacterPosition -= 2
             while (actualCharacterPosition >= letterNumberDictionary.count) {
                 actualCharacterPosition -= letterNumberDictionary.count
             }

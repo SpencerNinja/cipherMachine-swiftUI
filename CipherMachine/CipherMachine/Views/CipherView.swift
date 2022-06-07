@@ -79,6 +79,15 @@ extension CipherView {
             Text("Enter the message to decrypt below:")
             TextEditor(text: $vm.messageToDecode)
                 .autocapitalization(.none)
+                .onChange(of: vm.messageToDecode) { newValue in
+                    if (newValue.contains("”")) {
+                        vm.messageToDecode.removeLast()
+                        vm.messageToDecode.append("\"")
+                    } else if newValue.contains("’") {
+                        vm.messageToDecode.removeLast()
+                        vm.messageToDecode.append("\'")
+                    }
+                }
                 .padding()
                 .background(.gray.opacity(0.1))
             Button(action: {
