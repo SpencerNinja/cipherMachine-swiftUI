@@ -40,6 +40,7 @@ extension CipherView {
         VStack {
             Text("ENCRYPT:")
             TextField("Enter a word (no spaces, numbers or symbols)", text: $vm.userKey)
+                .autocapitalization(.none)
                 .onChange(of: vm.userKey) { newValue in
                     for char in vm.prohibitedCharacterForKey {
                         if (newValue.contains(char)) {
@@ -51,6 +52,7 @@ extension CipherView {
                 .background(.gray.opacity(0.1))
             Text("Enter the message to encrypt below:")
             TextEditor(text: $vm.messageToCode)
+                .autocapitalization(.none)
                 .padding()
                 .background(.gray.opacity(0.1))
             Button(action: {
@@ -71,10 +73,12 @@ extension CipherView {
         VStack {
             Text("DECRYPT:")
             TextField("Enter the key (without spaces)", text: $vm.decryptKey)
+                .autocapitalization(.none)
                 .padding()
                 .background(.gray.opacity(0.1))
             Text("Enter the message to decrypt below:")
             TextEditor(text: $vm.messageToDecode)
+                .autocapitalization(.none)
                 .padding()
                 .background(.gray.opacity(0.1))
             Button(action: {

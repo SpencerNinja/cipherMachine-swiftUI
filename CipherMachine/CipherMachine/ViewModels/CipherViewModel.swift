@@ -97,11 +97,11 @@ class CipherViewModel: ObservableObject {
         for char in encryptedMessage {
             let shiftedCharacterPosition = letterNumberDictionary[String(char)]!
             var actualCharacterPosition = shiftedCharacterPosition - keyNumber
-            // TODO: While loops cancel each other out
+            actualCharacterPosition -= 2
             while (actualCharacterPosition >= letterNumberDictionary.count) {
                 actualCharacterPosition -= letterNumberDictionary.count
             }
-            while (actualCharacterPosition < letterNumberDictionary.count) {
+            while (actualCharacterPosition < 0) {
                 actualCharacterPosition += letterNumberDictionary.count
             }
             let decodedCharacter = letterArray[actualCharacterPosition]
