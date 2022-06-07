@@ -11,11 +11,16 @@ struct CipherView: View {
     
     @EnvironmentObject var vm: CipherViewModel
     
+    @State var encryptedMessage = ""
+    @State var decryptedMessage = ""
+    
     var body: some View {
         ZStack {
             VStack {
                 titleSection
+                Divider()
                 encryptSection
+                Divider()
                 decryptSection
             }
             .padding()
@@ -34,22 +39,32 @@ extension CipherView {
     var encryptSection: some View {
         VStack {
             Text("ENCRYPT:")
-            TextField("key", text: $vm.userKey)
+            TextField("Enter a word (no spaces, numbers or symbols)", text: $vm.userKey)
+                .autocapitalization(.none)
                 .onChange(of: vm.userKey) { newValue in
-                    if (vm.userKey.count > 0) {
-                        vm.userKeyIsEntered = true
+                    for char in vm.prohibitedCharacterForKey {
+                        if (newValue.contains(char)) {
+                            vm.userKey = ""
+                        }
                     }
                 }
-            TextEditor(text: $vm.userMessage)
-                .foregroundColor(.secondary.opacity(0.5))
-                .onChange(of: vm.userMessage) { newValue in
-                    if (vm.userMessage.count > 0 && vm.userMessage != "Message") {
-                        vm.userKeyIsEntered = true
-                    }
-                }
-            // TODO: Insert encrypted message here
-            if (vm.userKeyIsEntered && vm.userMessageIsEntered) {
-                Text(vm.encryptMessage(userMessage: vm.userMessage, keyNumber: vm.convertKeyToNumber(keyString: vm.userKey)))
+                .padding()
+                .background(.gray.opacity(0.1))
+            Text("Enter the message to encrypt below:")
+            TextEditor(text: $vm.messageToCode)
+                .autocapitalization(.none)
+                .padding()
+                .background(.gray.opacity(0.1))
+            Button(action: {
+                encryptedMessage = vm.encryptMessage(
+                    userMessage: $vm.messageToCode.wrappedValue,
+                    keyNumber: vm.convertKeyToNumber(keyString: $vm.userKey.wrappedValue)
+                )
+            }, label: {
+                Text("Encrypt My Message")
+            })
+            ScrollView {
+                Text(encryptedMessage)
             }
         }
     }
@@ -57,38 +72,30 @@ extension CipherView {
     var decryptSection: some View {
         VStack {
             Text("DECRYPT:")
-            TextField("key", text: $vm.decryptKey)
-            TextEditor(text: $vm.codedMessage)
-                .foregroundColor(.secondary.opacity(0.5))
-            // TODO: Insert decrypted message here
+            TextField("Enter the key (without spaces)", text: $vm.decryptKey)
+                .autocapitalization(.none)
+                .padding()
+                .background(.gray.opacity(0.1))
+            Text("Enter the message to decrypt below:")
+            TextEditor(text: $vm.messageToDecode)
+                .autocapitalization(.none)
+                .padding()
+                .background(.gray.opacity(0.1))
+            Button(action: {
+                decryptedMessage = vm.decryptMessage(
+                    encryptedMessage: $vm.messageToDecode.wrappedValue,
+                    keyNumber: vm.convertKeyToNumber(keyString: $vm.userKey.wrappedValue)
+                )
+            }, label: {
+                Text("Decrypt My Message")
+            })
+            ScrollView {
+                Text(decryptedMessage)
+            }
         }
     }
     
 }
-
-/*
- ENCRYPT PROCESS:
- 1. User types in key (string) to code message with
- 2. Computer translates key into a number
- 3. User types in the message they want to code
- 4. The computer encrypts the message (for each character in user message)
-    a. If char in user message is not a space character
-        i. Add constanant letter key number of places to the right to coded array
-    b. If space character
-        i. Add a vowel character
-    c. If message has finished coding, display coded message
- 
- DECRYPT PROCESS:
- 1. User types in key (string) that message was coded with
- 2. User types in coded message
- 3. Computer converts key to the numeric value
- 4. Computer decodes message (for each character in coded message)
-    a. If character is a constanant
-        i.  find character key number places to the left
-        ii. add character to decoded array
-    b. If character is a vowel
-        i. add a space character to the coded message
- */
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
